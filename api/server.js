@@ -18,7 +18,13 @@ server.get('/games', (req, res) => {
 		});
 });
 
-server.post('/games', (req,res)=> {
-})
+server.post('/games', async (req, res) => {
+	try {
+		const game = Games.add(req.body);
+		res.status(201).json(game);
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+});
 
 module.exports = server;
