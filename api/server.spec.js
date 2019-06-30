@@ -21,8 +21,13 @@ describe('get /games', () => {
 
 describe('post /games', () => {
 	it('should return a new game', async () => {
-		// const post = jest.fn(() => Promise.resolve({ title: 'League of Legends', genre: 'MMO', releaseYear: 2010}))
-		const res = await request(server).post('/games');
-		expect(ress).toBe(201);
+		const game = { title: 'League of Legends', genre: 'MMO', releaseYear: 2010 };
+		const post = await request(server).post('/games').send(game);
+		expect(post.status).toBe(201);
+	});
+	it('should return a 422 if it is missing a field', async () => {
+		const game = { title: 'League of Legends', genre: 'MMO' }; // missing the releaseYear
+		const post = await request(server).post('/games').send(game);
+		expect(post.status).toBe(422);
 	});
 });

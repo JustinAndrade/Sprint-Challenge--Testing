@@ -19,9 +19,14 @@ server.get('/games', (req, res) => {
 });
 
 server.post('/games', async (req, res) => {
+	const { title, genre, releaseYear } = req.body;
 	try {
-		const game = Games.add(req.body);
-		res.status(201).json(game);
+		if ((title, genre, releaseYear)) {
+			Games.add(req.body);
+			res.status(201).json(req.body);
+		} else {
+			res.status(422).json({ message: 'Not all correct fields were submitted.' });
+		}
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
